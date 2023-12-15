@@ -132,7 +132,7 @@ export function ProductListItem({
 			<MusicPlayer src={product.extra?.soundFile.url!} showable />
 			{"image" in product ? (
 				<a
-					href={`https://localhost/api/files/${product?.extra?.soundFile.fileName}?name=${product?.extra?.soundFile.orgName}`}
+					href={`https://localhost/api/files/download/${product?.extra?.soundFile.fileName}?name=${product?.extra?.soundFile.orgName}`}
 					download={true}
 					className="download"
 				>

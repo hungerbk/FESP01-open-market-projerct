@@ -294,7 +294,7 @@ function ProductDetail() {
 						</Link>
 					) : (
 						<a
-							href={`https://localhost/api/files/${product?.extra?.soundFile.fileName}?name=${product?.extra?.soundFile.orgName}`}
+							href={`https://localhost/api/files/download/${product?.extra?.soundFile.fileName}?name=${product?.extra?.soundFile.orgName}`}
 							download={true}
 						>
 							<DownloadIcon />
