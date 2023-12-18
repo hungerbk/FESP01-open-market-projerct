@@ -23,6 +23,7 @@ export const Common = {
 	space: {
 		spacingMd: "10px",
 		spacingLg: "20px",
+		spacingXl: "30px",
 	},
 	a11yHidden: `
   overflow: hidden;

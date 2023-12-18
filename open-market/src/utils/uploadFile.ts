@@ -1,8 +1,10 @@
-import axios from "axios";
+import { axiosInstance } from "@/utils";
 import toast from "react-hot-toast";
 
+const API_KEY = import.meta.env.VITE_API_SERVER;
+
 export async function uploadFile(
-	file: string, // 업로드할 파일
+	file: File, // 업로드할 파일
 	setItemCallback: (arg0: (prevItem: any) => any) => void, // state
 	itemType: string, // 파일 타입 - mainImages or soundFile
 ) {
@@ -12,22 +14,41 @@ export async function uploadFile(
 	try {
 		const accessToken = localStorage.getItem("accessToken");
 
-		const response = await axios.post("https://localhost/api/files", formData, {
+		const response = await axiosInstance.post(`/files`, formData, {
 			headers: {
 				"Content-Type": "multipart/form-data",
 				Authorization: `Bearer ${accessToken}`,
 			},
 		});
 
-		const filePath = `https://localhost${response.data.file.path}`;
+		const filePath = `${API_KEY}${response.data.file.path}`;
+		const name = response.data.file.name;
+		const originalname = response.data.file.originalname;
+
 		// 상태 업데이트
 		setItemCallback((prevItem) => {
 			if (itemType === "image") {
-				return { ...prevItem, mainImages: [filePath] };
+				return {
+					...prevItem,
+					mainImages: [
+						{
+							path: filePath,
+							name: name,
+							originalname: originalname,
+						},
+					],
+				};
 			} else if (itemType === "soundFile") {
 				return {
 					...prevItem,
-					extra: { ...prevItem.extra, soundFile: filePath },
+					extra: {
+						...prevItem.extra,
+						soundFile: {
+							path: filePath,
+							name: name,
+							originalname: originalname,
+						},
+					},
 				};
 			} else {
 				return prevItem;
